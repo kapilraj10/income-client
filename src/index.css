@@ -1,0 +1,33 @@
+
+.sidebar {
+  transition: width 0.3s ease;
+  overflow: hidden;
+}
+.sidebar.open {
+  width: 250px;
+}
+/* App.css or NavBar.css */
+.navbar {
+  padding: 0.8rem 1rem;
+}
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+.dashboard-container {
+  min-height: 100vh;
+  background-color: #f8f9fa; 
+  padding-bottom: 2rem;
+}
+
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1rem;
+  }
+}
+
+body {
+  background: linear-gradient(to right, #e0eafc, #cfdef3);
+  font-family: 'Segoe UI', sans-serif;
+}
