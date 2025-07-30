@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://income-backend-2.onrender.com",
+  baseURL: "https://income-server-2.onrender.com",
 });
 
 API.interceptors.request.use((config) => {
