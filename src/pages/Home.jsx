@@ -1,43 +1,62 @@
-import React, { useState, useEffect } from "react";
+// src/Dashboard.jsx
+import React, { useState, useEffect } from 'react';
 
-export default function Home() {
-  const [role, setRole] = useState("user");
-  const [activeTab, setActiveTab] = useState("overview");
-  const [timeOfDay, setTimeOfDay] = useState("");
-
+const Dashboard = () => {
+  const [role, setRole] = useState('user');
+  const [activeTab, setActiveTab] = useState('overview');
+  const [timeOfDay, setTimeOfDay] = useState('');
+  const [transactions, setTransactions] = useState([]);
+  const [financialData, setFinancialData] = useState(null);
+  
   useEffect(() => {
-    // Simulate fetching user role
-    const storedRole = localStorage.getItem("role") || "user";
+    // Simulate fetching user data
+    const storedRole = localStorage.getItem('role') || 'user';
     setRole(storedRole);
     
     // Set greeting based on time of day
     const hour = new Date().getHours();
-    if (hour < 12) setTimeOfDay("morning");
-    else if (hour < 18) setTimeOfDay("afternoon");
-    else setTimeOfDay("evening");
+    if (hour < 12) setTimeOfDay('morning');
+    else if (hour < 18) setTimeOfDay('afternoon');
+    else setTimeOfDay('evening');
+    
+    // Sample financial data
+    const sampleData = {
+      income: 4250,
+      expenses: 1980,
+      savings: 2270,
+      budget: 2500,
+      transactions: [
+        { id: 1, name: "Salary", amount: 3200, type: "income", date: "2023-06-15", category: "Salary" },
+        { id: 2, name: "Rent", amount: -1200, type: "expense", date: "2023-06-10", category: "Housing" },
+        { id: 3, name: "Groceries", amount: -350, type: "expense", date: "2023-06-12", category: "Food" },
+        { id: 4, name: "Freelance Work", amount: 1050, type: "income", date: "2023-06-08", category: "Work" },
+        { id: 5, name: "Utilities", amount: -180, type: "expense", date: "2023-06-05", category: "Utilities" },
+        { id: 6, name: "Investment", amount: 250, type: "income", date: "2023-06-02", category: "Investment" },
+        { id: 7, name: "Dining Out", amount: -120, type: "expense", date: "2023-06-01", category: "Food" },
+        { id: 8, name: "Online Course", amount: -85, type: "expense", date: "2023-05-29", category: "Education" }
+      ]
+    };
+    
+    setFinancialData(sampleData);
+    setTransactions(sampleData.transactions.slice(0, 4));
   }, []);
 
-  // Sample financial data
-  const financialData = {
-    income: 4250,
-    expenses: 1980,
-    savings: 2270,
-    transactions: [
-      { id: 1, name: "Salary", amount: 3200, type: "income", date: "2023-06-15" },
-      { id: 2, name: "Rent", amount: -1200, type: "expense", date: "2023-06-10" },
-      { id: 3, name: "Groceries", amount: -350, type: "expense", date: "2023-06-12" },
-      { id: 4, name: "Freelance Work", amount: 1050, type: "income", date: "2023-06-08" },
-      { id: 5, name: "Utilities", amount: -180, type: "expense", date: "2023-06-05" },
-      { id: 6, name: "Investment", amount: 250, type: "income", date: "2023-06-02" },
-    ]
+  // Calculate financial summary
+  const calculateSummary = () => {
+    if (!financialData) return {};
+    
+    return {
+      income: financialData.transactions
+        .filter(t => t.type === "income")
+        .reduce((sum, t) => sum + t.amount, 0),
+      expenses: Math.abs(financialData.transactions
+        .filter(t => t.type === "expense")
+        .reduce((sum, t) => sum + t.amount, 0)),
+      savings: financialData.income - financialData.expenses
+    };
   };
 
-  // Calculate financial summary
-  const summary = {
-    income: financialData.transactions.filter(t => t.type === "income").reduce((sum, t) => sum + t.amount, 0),
-    expenses: Math.abs(financialData.transactions.filter(t => t.type === "expense").reduce((sum, t) => sum + t.amount, 0)),
-    savings: financialData.income - financialData.expenses
-  };
+  const summary = calculateSummary();
 
   // Format currency
   const formatCurrency = (amount) => {
@@ -48,34 +67,66 @@ export default function Home() {
     }).format(amount);
   };
 
+  // Get category icon
+  const getCategoryIcon = (category) => {
+    switch(category) {
+      case 'Housing': return 'bi-house-door';
+      case 'Food': return 'bi-cart';
+      case 'Utilities': return 'bi-lightning';
+      case 'Transportation': return 'bi-bus-front';
+      case 'Entertainment': return 'bi-film';
+      case 'Healthcare': return 'bi-heart-pulse';
+      case 'Education': return 'bi-book';
+      case 'Salary': return 'bi-cash';
+      case 'Investment': return 'bi-graph-up';
+      default: return 'bi-wallet';
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-100 flex flex-col">
+    <div className="min-vh-100 d-flex flex-column" style={{ backgroundColor: '#f8f9fa' }}>
       {/* Navigation Bar */}
-      <nav className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
-            <div className="flex items-center">
-              <div className="flex-shrink-0 flex items-center">
-                <div className="bg-indigo-600 w-8 h-8 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">$</span>
-                </div>
-                <span className="ml-2 text-xl font-bold text-indigo-800">FinTrack</span>
+      <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div className="container">
+          <a className="navbar-brand d-flex align-items-center" href="#">
+            <i className="bi bi-cash-coin fs-3 me-2"></i>
+            <span className="fw-bold">FinTrack</span>
+          </a>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav me-auto">
+              <li className="nav-item">
+                <a className="nav-link active" href="#"><i className="bi bi-speedometer2 me-1"></i> Dashboard</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#"><i className="bi bi-graph-up me-1"></i> Reports</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#"><i className="bi bi-wallet me-1"></i> Budget</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#"><i className="bi bi-credit-card me-1"></i> Accounts</a>
+              </li>
+            </ul>
+            <div className="d-flex align-items-center">
+              <div className="badge bg-light text-dark me-3 px-3 py-2">
+                <i className="bi bi-person me-1"></i>
+                <span className="text-capitalize">{role}</span>
               </div>
-              <div className="hidden md:ml-10 md:flex md:space-x-8">
-                <a href="#" className="text-indigo-600 border-b-2 border-indigo-600 px-1 pt-1 text-sm font-medium">Dashboard</a>
-                <a href="#" className="text-gray-500 hover:text-gray-700 px-1 pt-1 text-sm font-medium">Reports</a>
-                <a href="#" className="text-gray-500 hover:text-gray-700 px-1 pt-1 text-sm font-medium">Budget</a>
-                <a href="#" className="text-gray-500 hover:text-gray-700 px-1 pt-1 text-sm font-medium">Accounts</a>
-              </div>
-            </div>
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div className="bg-indigo-100 rounded-full px-3 py-1 text-sm font-medium text-indigo-800">
-                  <span className="capitalize">{role}</span>
-                </div>
-              </div>
-              <div className="ml-3 relative">
-                <div className="bg-gray-200 border-2 border-dashed rounded-xl w-10 h-10"></div>
+              <div className="dropdown">
+                <button className="btn btn-light rounded-circle p-0" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+                  <div className="bg-light border rounded-circle d-flex align-items-center justify-content-center" style={{ width: '40px', height: '40px' }}>
+                    <i className="bi bi-person fs-5"></i>
+                  </div>
+                </button>
+                <ul className="dropdown-menu dropdown-menu-end">
+                  <li><a className="dropdown-item" href="#"><i className="bi bi-person me-2"></i>Profile</a></li>
+                  <li><a className="dropdown-item" href="#"><i className="bi bi-gear me-2"></i>Settings</a></li>
+                  <li><hr className="dropdown-divider" /></li>
+                  <li><a className="dropdown-item" href="#"><i className="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                </ul>
               </div>
             </div>
           </div>
@@ -83,317 +134,384 @@ export default function Home() {
       </nav>
 
       {/* Main Content */}
-      <main className="flex-grow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="flex-grow-1 py-4">
+        <div className="container">
           {/* Welcome Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">Good {timeOfDay}, <span className="capitalize">{role}</span>!</h1>
-            <p className="mt-2 text-gray-600">Track and manage your finances efficiently</p>
+          <div className="row mb-4">
+            <div className="col">
+              <h1 className="fw-bold text-dark mb-1">Good {timeOfDay}, <span className="text-capitalize">{role}</span>!</h1>
+              <p className="text-muted">Track and manage your finances efficiently</p>
+            </div>
           </div>
 
           {/* Financial Summary Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-500">
-              <div className="flex justify-between items-start">
-                <div>
-                  <p className="text-sm font-medium text-gray-500">Total Income</p>
-                  <p className="mt-1 text-2xl font-semibold text-gray-900">{formatCurrency(summary.income)}</p>
-                </div>
-                <div className="bg-green-100 p-3 rounded-lg">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
+          <div className="row g-4 mb-4">
+            <div className="col-md-4">
+              <div className="card border-start border-4 border-success h-100 shadow-sm">
+                <div className="card-body">
+                  <div className="d-flex justify-content-between">
+                    <div>
+                      <h6 className="text-uppercase text-muted small fw-bold">Total Income</h6>
+                      <h3 className="fw-bold mt-2">{formatCurrency(summary.income || 0)}</h3>
+                    </div>
+                    <div className="bg-success bg-opacity-10 p-3 rounded">
+                      <i className="bi bi-arrow-up-circle fs-3 text-success"></i>
+                    </div>
+                  </div>
+                  <div className="mt-3">
+                    <span className="badge bg-success bg-opacity-10 text-success">
+                      <i className="bi bi-arrow-up me-1"></i>12% from last month
+                    </span>
+                  </div>
                 </div>
               </div>
-              <p className="mt-2 text-sm text-green-600 flex items-center">
-                <span>↑ 12% from last month</span>
-              </p>
             </div>
-
-            <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-red-500">
-              <div className="flex justify-between items-start">
-                <div>
-                  <p className="text-sm font-medium text-gray-500">Total Expenses</p>
-                  <p className="mt-1 text-2xl font-semibold text-gray-900">{formatCurrency(summary.expenses)}</p>
-                </div>
-                <div className="bg-red-100 p-3 rounded-lg">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                  </svg>
+            
+            <div className="col-md-4">
+              <div className="card border-start border-4 border-danger h-100 shadow-sm">
+                <div className="card-body">
+                  <div className="d-flex justify-content-between">
+                    <div>
+                      <h6 className="text-uppercase text-muted small fw-bold">Total Expenses</h6>
+                      <h3 className="fw-bold mt-2">{formatCurrency(summary.expenses || 0)}</h3>
+                    </div>
+                    <div className="bg-danger bg-opacity-10 p-3 rounded">
+                      <i className="bi bi-arrow-down-circle fs-3 text-danger"></i>
+                    </div>
+                  </div>
+                  <div className="mt-3">
+                    <span className="badge bg-danger bg-opacity-10 text-danger">
+                      <i className="bi bi-arrow-up me-1"></i>5% from last month
+                    </span>
+                  </div>
                 </div>
               </div>
-              <p className="mt-2 text-sm text-red-600 flex items-center">
-                <span>↑ 5% from last month</span>
-              </p>
             </div>
-
-            <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-500">
-              <div className="flex justify-between items-start">
-                <div>
-                  <p className="text-sm font-medium text-gray-500">Savings</p>
-                  <p className="mt-1 text-2xl font-semibold text-gray-900">{formatCurrency(summary.savings)}</p>
-                </div>
-                <div className="bg-blue-100 p-3 rounded-lg">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
+            
+            <div className="col-md-4">
+              <div className="card border-start border-4 border-info h-100 shadow-sm">
+                <div className="card-body">
+                  <div className="d-flex justify-content-between">
+                    <div>
+                      <h6 className="text-uppercase text-muted small fw-bold">Current Savings</h6>
+                      <h3 className="fw-bold mt-2">{formatCurrency(summary.savings || 0)}</h3>
+                    </div>
+                    <div className="bg-info bg-opacity-10 p-3 rounded">
+                      <i className="bi bi-piggy-bank fs-3 text-info"></i>
+                    </div>
+                  </div>
+                  <div className="mt-3">
+                    <span className="badge bg-info bg-opacity-10 text-info">
+                      <i className="bi bi-arrow-up me-1"></i>18% from last month
+                    </span>
+                  </div>
                 </div>
               </div>
-              <p className="mt-2 text-sm text-blue-600 flex items-center">
-                <span>↑ 18% from last month</span>
-              </p>
             </div>
           </div>
 
           {/* Dashboard Content */}
-          <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-            <div className="border-b border-gray-200">
-              <nav className="flex -mb-px">
-                <button 
-                  onClick={() => setActiveTab("overview")}
-                  className={`${
-                    activeTab === "overview" 
-                      ? "border-indigo-500 text-indigo-600" 
-                      : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                  } py-4 px-6 text-center border-b-2 font-medium text-sm`}
-                >
-                  Overview
-                </button>
-                <button 
-                  onClick={() => setActiveTab("transactions")}
-                  className={`${
-                    activeTab === "transactions" 
-                      ? "border-indigo-500 text-indigo-600" 
-                      : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                  } py-4 px-6 text-center border-b-2 font-medium text-sm`}
-                >
-                  Transactions
-                </button>
-                <button 
-                  onClick={() => setActiveTab("reports")}
-                  className={`${
-                    activeTab === "reports" 
-                      ? "border-indigo-500 text-indigo-600" 
-                      : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                  } py-4 px-6 text-center border-b-2 font-medium text-sm`}
-                >
-                  Reports
-                </button>
-              </nav>
-            </div>
-
-            {/* Tab Content */}
-            <div className="p-6">
-              {activeTab === "overview" && (
-                <div>
-                  <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-lg font-medium text-gray-900">Financial Overview</h2>
-                    <div className="flex space-x-3">
-                      <button className="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                        Last 30 days
+          <div className="row g-4">
+            {/* Left Column */}
+            <div className="col-lg-8">
+              <div className="card shadow-sm">
+                <div className="card-header bg-white border-bottom">
+                  <ul className="nav nav-tabs card-header-tabs">
+                    <li className="nav-item">
+                      <button 
+                        className={`nav-link ${activeTab === 'overview' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('overview')}
+                      >
+                        Overview
                       </button>
-                      <button className="inline-flex items-center px-4 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700">
-                        Add Transaction
+                    </li>
+                    <li className="nav-item">
+                      <button 
+                        className={`nav-link ${activeTab === 'transactions' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('transactions')}
+                      >
+                        Transactions
                       </button>
-                    </div>
-                  </div>
-                  
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <h3 className="text-base font-medium text-gray-900 mb-4">Income vs Expenses</h3>
-                      <div className="h-64 flex items-end space-x-2">
-                        {/* Income bars */}
-                        <div className="flex-1 flex flex-col items-center">
-                          <div className="w-full flex justify-center">
-                            <div className="w-10 bg-green-500 rounded-t" style={{ height: '70%' }}></div>
-                          </div>
-                          <span className="text-xs text-gray-500 mt-2">Jan</span>
-                        </div>
-                        <div className="flex-1 flex flex-col items-center">
-                          <div className="w-full flex justify-center">
-                            <div className="w-10 bg-green-500 rounded-t" style={{ height: '85%' }}></div>
-                          </div>
-                          <span className="text-xs text-gray-500 mt-2">Feb</span>
-                        </div>
-                        <div className="flex-1 flex flex-col items-center">
-                          <div className="w-full flex justify-center">
-                            <div className="w-10 bg-green-500 rounded-t" style={{ height: '65%' }}></div>
-                          </div>
-                          <span className="text-xs text-gray-500 mt-2">Mar</span>
-                        </div>
-                        <div className="flex-1 flex flex-col items-center">
-                          <div className="w-full flex justify-center">
-                            <div className="w-10 bg-green-500 rounded-t" style={{ height: '90%' }}></div>
-                          </div>
-                          <span className="text-xs text-gray-500 mt-2">Apr</span>
-                        </div>
-                        <div className="flex-1 flex flex-col items-center">
-                          <div className="w-full flex justify-center">
-                            <div className="w-10 bg-green-500 rounded-t" style={{ height: '75%' }}></div>
-                          </div>
-                          <span className="text-xs text-gray-500 mt-2">May</span>
-                        </div>
-                        <div className="flex-1 flex flex-col items-center">
-                          <div className="w-full flex justify-center">
-                            <div className="w-10 bg-green-500 rounded-t" style={{ height: '100%' }}></div>
-                          </div>
-                          <span className="text-xs text-gray-500 mt-2">Jun</span>
-                        </div>
-                        
-                        {/* Expense bars */}
-                        <div className="flex-1 flex flex-col items-center">
-                          <div className="w-full flex justify-center">
-                            <div className="w-10 bg-red-500 rounded-t" style={{ height: '40%' }}></div>
-                          </div>
-                        </div>
-                        <div className="flex-1 flex flex-col items-center">
-                          <div className="w-full flex justify-center">
-                            <div className="w-10 bg-red-500 rounded-t" style={{ height: '45%' }}></div>
-                          </div>
-                        </div>
-                        <div className="flex-1 flex flex-col items-center">
-                          <div className="w-full flex justify-center">
-                            <div className="w-10 bg-red-500 rounded-t" style={{ height: '50%' }}></div>
-                          </div>
-                        </div>
-                        <div className="flex-1 flex flex-col items-center">
-                          <div className="w-full flex justify-center">
-                            <div className="w-10 bg-red-500 rounded-t" style={{ height: '35%' }}></div>
-                          </div>
-                        </div>
-                        <div className="flex-1 flex flex-col items-center">
-                          <div className="w-full flex justify-center">
-                            <div className="w-10 bg-red-500 rounded-t" style={{ height: '55%' }}></div>
-                          </div>
-                        </div>
-                        <div className="flex-1 flex flex-col items-center">
-                          <div className="w-full flex justify-center">
-                            <div className="w-10 bg-red-500 rounded-t" style={{ height: '60%' }}></div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex justify-center mt-4 space-x-4">
-                        <div className="flex items-center">
-                          <div className="w-4 h-4 bg-green-500 rounded mr-2"></div>
-                          <span className="text-sm text-gray-600">Income</span>
-                        </div>
-                        <div className="flex items-center">
-                          <div className="w-4 h-4 bg-red-500 rounded mr-2"></div>
-                          <span className="text-sm text-gray-600">Expenses</span>
-                        </div>
-                      </div>
-                    </div>
-                    
+                    </li>
+                    <li className="nav-item">
+                      <button 
+                        className={`nav-link ${activeTab === 'reports' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('reports')}
+                      >
+                        Reports
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+                <div className="card-body">
+                  {activeTab === 'overview' && (
                     <div>
-                      <h3 className="text-base font-medium text-gray-900 mb-4">Recent Transactions</h3>
-                      <div className="bg-white shadow rounded-lg overflow-hidden">
-                        <ul className="divide-y divide-gray-200">
-                          {financialData.transactions.slice(0, 4).map(transaction => (
-                            <li key={transaction.id} className="px-4 py-4 sm:px-6">
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center">
-                                  <div className={`p-2 rounded-lg ${
-                                    transaction.type === 'income' ? 'bg-green-100' : 'bg-red-100'
-                                  }`}>
-                                    {transaction.type === 'income' ? (
-                                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-600" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fillRule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                                      </svg>
-                                    ) : (
-                                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-600" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fillRule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                      </svg>
-                                    )}
-                                  </div>
-                                  <div className="ml-4">
-                                    <p className="text-sm font-medium text-gray-900">{transaction.name}</p>
-                                    <p className="text-sm text-gray-500">{new Date(transaction.date).toLocaleDateString()}</p>
-                                  </div>
-                                </div>
-                                <div className={`text-sm font-medium ${
-                                  transaction.type === 'income' ? 'text-green-600' : 'text-red-600'
-                                }`}>
-                                  {formatCurrency(transaction.amount)}
-                                </div>
-                              </div>
-                            </li>
-                          ))}
-                        </ul>
-                        <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
-                          <button className="text-sm font-medium text-indigo-600 hover:text-indigo-900">
-                            View all transactions →
+                      <div className="d-flex justify-content-between align-items-center mb-4">
+                        <h5 className="card-title mb-0">Financial Overview</h5>
+                        <div className="d-flex gap-2">
+                          <button className="btn btn-outline-secondary btn-sm">
+                            Last 30 days <i className="bi bi-chevron-down ms-1"></i>
+                          </button>
+                          <button className="btn btn-primary btn-sm">
+                            <i className="bi bi-plus me-1"></i> Add Transaction
                           </button>
                         </div>
                       </div>
+                      
+                      <div className="mb-4">
+                        <div className="d-flex justify-content-between mb-3">
+                          <span className="text-muted">Income vs Expenses</span>
+                          <div className="d-flex gap-3">
+                            <span className="d-flex align-items-center">
+                              <span className="d-inline-block bg-success rounded me-1" style={{ width: '10px', height: '10px' }}></span>
+                              <small className="text-muted">Income</small>
+                            </span>
+                            <span className="d-flex align-items-center">
+                              <span className="d-inline-block bg-danger rounded me-1" style={{ width: '10px', height: '10px' }}></span>
+                              <small className="text-muted">Expenses</small>
+                            </span>
+                          </div>
+                        </div>
+                        
+                        <div className="d-flex align-items-end" style={{ height: '200px' }}>
+                          {[70, 85, 65, 90, 75, 100].map((height, idx) => (
+                            <div key={idx} className="flex-fill d-flex flex-column align-items-center me-2">
+                              <div className="d-flex align-items-end" style={{ height: '100%', width: '100%' }}>
+                                <div 
+                                  className="bg-success rounded-top" 
+                                  style={{ 
+                                    width: '100%', 
+                                    height: `${height}%`,
+                                    opacity: 0.8
+                                  }}
+                                ></div>
+                                <div 
+                                  className="bg-danger rounded-top ms-1" 
+                                  style={{ 
+                                    width: '100%', 
+                                    height: `${height/2}%`,
+                                    opacity: 0.8
+                                  }}
+                                ></div>
+                              </div>
+                              <small className="text-muted mt-1">{['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'][idx]}</small>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      <h5 className="card-title mb-3">Recent Transactions</h5>
+                      <div className="list-group">
+                        {transactions.map(transaction => (
+                          <div 
+                            key={transaction.id} 
+                            className="list-group-item list-group-item-action border-0 py-3"
+                          >
+                            <div className="d-flex align-items-center">
+                              <div className={`bg-${transaction.type === 'income' ? 'success' : 'danger'}-subtle p-2 rounded me-3`}>
+                                <i className={`bi ${getCategoryIcon(transaction.category)} fs-4 text-${transaction.type === 'income' ? 'success' : 'danger'}`}></i>
+                              </div>
+                              <div className="flex-grow-1">
+                                <h6 className="mb-0">{transaction.name}</h6>
+                                <small className="text-muted">{new Date(transaction.date).toLocaleDateString()} • {transaction.category}</small>
+                              </div>
+                              <div className={`fw-bold ${transaction.type === 'income' ? 'text-success' : 'text-danger'}`}>
+                                {formatCurrency(transaction.amount)}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="text-center mt-3">
+                        <button className="btn btn-link text-decoration-none">
+                          View all transactions <i className="bi bi-arrow-right ms-1"></i>
+                        </button>
+                      </div>
                     </div>
-                  </div>
+                  )}
+                  
+                  {activeTab === 'transactions' && (
+                    <div>
+                      <h5 className="card-title mb-4">Transaction History</h5>
+                      <div className="d-flex justify-content-between mb-4">
+                        <div className="d-flex gap-2">
+                          <button className="btn btn-outline-primary">All</button>
+                          <button className="btn btn-outline-secondary">Income</button>
+                          <button className="btn btn-outline-secondary">Expenses</button>
+                        </div>
+                        <div className="d-flex gap-2">
+                          <div className="input-group input-group-sm">
+                            <input type="text" className="form-control" placeholder="Search transactions..." />
+                            <button className="btn btn-outline-secondary">
+                              <i className="bi bi-search"></i>
+                            </button>
+                          </div>
+                          <button className="btn btn-primary btn-sm">
+                            <i className="bi bi-plus me-1"></i> New
+                          </button>
+                        </div>
+                      </div>
+                      
+                      <div className="table-responsive">
+                        <table className="table table-hover">
+                          <thead>
+                            <tr>
+                              <th>Description</th>
+                              <th>Category</th>
+                              <th>Date</th>
+                              <th className="text-end">Amount</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {financialData?.transactions.map(transaction => (
+                              <tr key={transaction.id}>
+                                <td>
+                                  <div className="d-flex align-items-center">
+                                    <i className={`bi ${getCategoryIcon(transaction.category)} me-2 text-${transaction.type === 'income' ? 'success' : 'danger'}`}></i>
+                                    {transaction.name}
+                                  </div>
+                                </td>
+                                <td>
+                                  <span className="badge bg-light text-dark">{transaction.category}</span>
+                                </td>
+                                <td>{new Date(transaction.date).toLocaleDateString()}</td>
+                                <td className={`fw-bold text-end ${transaction.type === 'income' ? 'text-success' : 'text-danger'}`}>
+                                  {formatCurrency(transaction.amount)}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {activeTab === 'reports' && (
+                    <div>
+                      <h5 className="card-title mb-4">Financial Reports</h5>
+                      <div className="row">
+                        <div className="col-md-6">
+                          <div className="card border-0 shadow-sm mb-4">
+                            <div className="card-body">
+                              <h6 className="card-title text-muted">Expense Breakdown</h6>
+                              <div className="mt-4">
+                                {['Housing', 'Food', 'Utilities', 'Transportation', 'Entertainment'].map((cat, idx) => (
+                                  <div key={cat} className="mb-3">
+                                    <div className="d-flex justify-content-between mb-1">
+                                      <span className="small">{cat}</span>
+                                      <span className="small fw-bold">{idx === 0 ? '48%' : idx === 1 ? '22%' : idx === 2 ? '15%' : idx === 3 ? '10%' : '5%'}</span>
+                                    </div>
+                                    <div className="progress" style={{ height: '8px' }}>
+                                      <div 
+                                        className="progress-bar" 
+                                        role="progressbar" 
+                                        style={{ 
+                                          width: `${idx === 0 ? 48 : idx === 1 ? 22 : idx === 2 ? 15 : idx === 3 ? 10 : 5}%`,
+                                          backgroundColor: idx === 0 ? '#0d6efd' : idx === 1 ? '#6610f2' : idx === 2 ? '#6f42c1' : idx === 3 ? '#d63384' : '#fd7e14'
+                                        }}
+                                      ></div>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-md-6">
+                          <div className="card border-0 shadow-sm">
+                            <div className="card-body">
+                              <h6 className="card-title text-muted">Income Sources</h6>
+                              <div className="d-flex justify-content-center mt-4">
+                                <div className="position-relative" style={{ width: '200px', height: '200px' }}>
+                                  <div className="position-absolute top-50 start-50 translate-middle">
+                                    <h5 className="mb-0">Total</h5>
+                                    <p className="mb-0 text-center">{formatCurrency(summary.income || 0)}</p>
+                                  </div>
+                                  <canvas id="incomeChart" height="200"></canvas>
+                                </div>
+                              </div>
+                              <div className="mt-3">
+                                <div className="d-flex justify-content-around">
+                                  <div className="text-center">
+                                    <span className="d-inline-block rounded-circle bg-primary" style={{ width: '10px', height: '10px' }}></span>
+                                    <small className="ms-1">Salary: 75%</small>
+                                  </div>
+                                  <div className="text-center">
+                                    <span className="d-inline-block rounded-circle bg-success" style={{ width: '10px', height: '10px' }}></span>
+                                    <small className="ms-1">Freelance: 20%</small>
+                                  </div>
+                                  <div className="text-center">
+                                    <span className="d-inline-block rounded-circle bg-info" style={{ width: '10px', height: '10px' }}></span>
+                                    <small className="ms-1">Investments: 5%</small>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
-              
-              {activeTab === "transactions" && (
-                <div>
-                  <h2 className="text-lg font-medium text-gray-900 mb-6">Transaction History</h2>
-                  <div className="bg-gray-50 rounded-lg p-6">
-                    <p className="text-center text-gray-500">Transaction history will be displayed here</p>
-                  </div>
-                </div>
-              )}
-              
-              {activeTab === "reports" && (
-                <div>
-                  <h2 className="text-lg font-medium text-gray-900 mb-6">Financial Reports</h2>
-                  <div className="bg-gray-50 rounded-lg p-6">
-                    <p className="text-center text-gray-500">Financial reports will be generated here</p>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Features Section */}
-          <div className="mt-12">
-            <div className="text-center mb-10">
-              <h2 className="text-2xl font-bold text-gray-900">Powerful Features</h2>
-              <p className="mt-2 text-gray-600 max-w-2xl mx-auto">
-                Manage your finances effectively with our comprehensive set of tools
-              </p>
+              </div>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 border border-gray-100">
-                <div className="bg-indigo-100 w-16 h-16 rounded-lg flex items-center justify-center mb-5">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                  </svg>
+            {/* Right Column */}
+            <div className="col-lg-4">
+              <div className="card shadow-sm mb-4">
+                <div className="card-header bg-white border-bottom">
+                  <h5 className="card-title mb-0">Monthly Budget</h5>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Expense Tracking</h3>
-                <p className="text-gray-600">
-                  Easily track all your expenses across different categories and get insights into your spending patterns.
-                </p>
+                <div className="card-body">
+                  <div className="d-flex justify-content-between mb-3">
+                    <span className="text-muted">Spent this month</span>
+                    <span className="fw-bold">{formatCurrency(summary.expenses || 0)}</span>
+                  </div>
+                  <div className="progress mb-2" style={{ height: '10px' }}>
+                    <div 
+                      className="progress-bar bg-danger" 
+                      role="progressbar" 
+                      style={{ width: `${((summary.expenses || 0) / (financialData?.budget || 2500) * 100}%` }}
+                    ></div>
+                  </div>
+                  <div className="d-flex justify-content-between">
+                    <span className="text-muted">Remaining</span>
+                    <span className="fw-bold">{formatCurrency((financialData?.budget || 2500) - (summary.expenses || 0))}</span>
+                  </div>
+                  
+                  <div className="mt-4">
+                    <div className="d-flex justify-content-between mb-2">
+                      <span className="text-muted">Budget limit</span>
+                      <span className="fw-bold">{formatCurrency(financialData?.budget || 2500)}</span>
+                    </div>
+                  </div>
+                  
+                  <button className="btn btn-outline-primary w-100 mt-3">
+                    <i className="bi bi-pencil me-2"></i>Edit Budget
+                  </button>
+                </div>
               </div>
               
-              <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 border border-gray-100">
-                <div className="bg-indigo-100 w-16 h-16 rounded-lg flex items-center justify-center mb-5">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
+              <div className="card shadow-sm">
+                <div className="card-header bg-white border-bottom">
+                  <h5 className="card-title mb-0">Quick Actions</h5>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Income Management</h3>
-                <p className="text-gray-600">
-                  Record all your income sources, track payments, and analyze your earnings over time.
-                </p>
-              </div>
-              
-              <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 border border-gray-100">
-                <div className="bg-indigo-100 w-16 h-16 rounded-lg flex items-center justify-center mb-5">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
+                <div className="card-body">
+                  <div className="d-grid gap-2">
+                    <button className="btn btn-outline-primary text-start">
+                      <i className="bi bi-plus-circle me-2"></i> Add Income
+                    </button>
+                    <button className="btn btn-outline-primary text-start">
+                      <i className="bi bi-dash-circle me-2"></i> Add Expense
+                    </button>
+                    <button className="btn btn-outline-primary text-start">
+                      <i className="bi bi-credit-card me-2"></i> Manage Accounts
+                    </button>
+                    <button className="btn btn-outline-primary text-start">
+                      <i className="bi bi-graph-up me-2"></i> Generate Report
+                    </button>
+                  </div>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Financial Reports</h3>
-                <p className="text-gray-600">
-                  Generate detailed financial reports, visualize your data with charts, and export for further analysis.
-                </p>
               </div>
             </div>
           </div>
@@ -401,18 +519,17 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="md:flex md:items-center md:justify-between">
-            <div className="text-center md:text-left">
-              <p className="text-gray-500 text-sm">© {new Date().getFullYear()} Kapilraj KC. All rights reserved.</p>
+      <footer className="bg-white border-top mt-auto py-4">
+        <div className="container">
+          <div className="row align-items-center">
+            <div className="col-md-6">
+              <p className="mb-0 text-muted">
+                © {new Date().getFullYear()} Kapilraj KC. All rights reserved.
+              </p>
             </div>
-            <div className="mt-4 flex justify-center md:mt-0">
-              <p className="text-gray-500 text-sm flex items-center">
-                Designed and developed with
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-1 text-red-500" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
-                </svg>
+            <div className="col-md-6 text-md-end">
+              <p className="mb-0 text-muted">
+                Designed and developed with <i className="bi bi-heart-fill text-danger"></i>
               </p>
             </div>
           </div>
@@ -420,4 +537,6 @@ export default function Home() {
       </footer>
     </div>
   );
-}
+};
+
+export default Dashboard;
