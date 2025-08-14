@@ -1,106 +1,111 @@
 import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-
-const Register = () => {
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-
+import { Container, Form, Button, Alert, Row, Col, Card } from "react-bootstrap";
+import { useNavigate, Link } from "react-router-dom";
+import API from "../Api"; 
+export default function Register() {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [gender, setGender] = useState("male");
+  const [role, setRole] = useState("user");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
-
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match!");
-      return;
-    }
-
-    if (formData.password.length < 6) {
-      setError("Password must be at least 6 characters long!");
-      return;
-    }
-
     setError("");
-    // Here you would normally send formData to your backend API
-    console.log("Registration successful:", formData);
-    alert("Registration successful!");
-    setFormData({
-      username: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    });
+    setSuccess("");
+    setLoading(true);
+    try {
+      await API.post("/auth/register", { username, email, password, role, gender });
+      setSuccess("User created! Please login.");
+      setTimeout(() => navigate("/login"), 1500);
+    } catch (err) {
+      setError(err.response?.data?.msg || "Registration failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-6 col-lg-5">
-          <div className="card shadow p-4">
-            <h2 className="text-center mb-4">Register</h2>
-            <form onSubmit={handleSubmit}>
-              <div className="mb-3">
-                <input
+    <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+      <Row className="w-100 justify-content-center">
+        <Col xs={12} sm={10} md={6} lg={5}>
+          <Card className="p-4 shadow-lg rounded-4 border-0">
+            <h3 className="text-center mb-4">Create Account</h3>
+            {error && <Alert variant="danger">{error}</Alert>}
+            {success && <Alert variant="success">{success}</Alert>}
+            <Form onSubmit={submit}>
+              <Form.Group className="mb-3">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
                   type="text"
-                  name="username"
-                  className="form-control"
-                  placeholder="Username"
-                  value={formData.username}
-                  onChange={handleChange}
                   required
+                  value={username}
+                  placeholder="Enter username"
+                  onChange={(e) => setUsername(e.target.value)}
                 />
-              </div>
-              <div className="mb-3">
-                <input
-                  type="email"
-                  name="email"
-                  className="form-control"
-                  placeholder="Email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="mb-3">
-                <input
-                  type="password"
-                  name="password"
-                  className="form-control"
-                  placeholder="Password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="mb-3">
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  className="form-control"
-                  placeholder="Confirm Password"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              {error && <p className="text-danger">{error}</p>}
-              <button type="submit" className="btn btn-success w-100">
-                Register
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+              </Form.Group>
 
-export default Register;
+              <Form.Group className="mb-3">
+                <Form.Label>Email (optional)</Form.Label>
+                <Form.Control
+                  type="email"
+                  value={email}
+                  placeholder="you@example.com"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  required
+                  value={password}
+                  placeholder="••••••••"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </Form.Group>
+
+              <Row>
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Gender</Form.Label>
+                    <Form.Select value={gender} onChange={(e) => setGender(e.target.value)} required>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other</option>
+                    </Form.Select>
+                  </Form.Group>
+                </Col>
+
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Role</Form.Label>
+                    <Form.Select value={role} onChange={(e) => setRole(e.target.value)} required>
+                      <option value="user">User</option>
+                      <option value="admin">Admin</option>
+                    </Form.Select>
+                  </Form.Group>
+                </Col>
+              </Row>
+
+              <Button type="submit" className="w-100 rounded-pill" disabled={loading}>
+                {loading ? "Registering..." : "Register"}
+              </Button>
+            </Form>
+
+            <div className="text-center mt-3">
+              <small>
+                Already have an account? <Link to="/login">Login here</Link>
+              </small>
+            </div>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
+  );
+}
