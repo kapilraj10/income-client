@@ -1,4 +1,4 @@
-// src/Dashboard.jsx
+// src/Home.jsx
 import React, { useState, useEffect } from 'react';
 
 const Home = () => {
@@ -70,447 +70,891 @@ const Home = () => {
   // Get category icon
   const getCategoryIcon = (category) => {
     switch(category) {
-      case 'Housing': return 'bi-house-door';
-      case 'Food': return 'bi-cart';
-      case 'Utilities': return 'bi-lightning';
-      case 'Transportation': return 'bi-bus-front';
-      case 'Entertainment': return 'bi-film';
-      case 'Healthcare': return 'bi-heart-pulse';
-      case 'Education': return 'bi-book';
-      case 'Salary': return 'bi-cash';
-      case 'Investment': return 'bi-graph-up';
-      default: return 'bi-wallet';
+      case 'Housing': return '🏠';
+      case 'Food': return '🛒';
+      case 'Utilities': return '💡';
+      case 'Transportation': return '🚌';
+      case 'Entertainment': return '🎬';
+      case 'Healthcare': return '❤️';
+      case 'Education': return '📚';
+      case 'Salary': return '💰';
+      case 'Investment': return '📈';
+      default: return '💳';
+    }
+  };
+
+  // Styles
+  const styles = {
+    app: {
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      backgroundColor: '#f8f9fa',
+      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+      color: '#343a40'
+    },
+    navbar: {
+      backgroundColor: '#0d6efd',
+      color: 'white',
+      padding: '0.5rem 1rem',
+      boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+      position: 'sticky',
+      top: 0,
+      zIndex: 100
+    },
+    navbarContainer: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      maxWidth: '1200px',
+      margin: '0 auto',
+      width: '100%'
+    },
+    brand: {
+      display: 'flex',
+      alignItems: 'center',
+      fontSize: '1.5rem',
+      fontWeight: 'bold',
+      textDecoration: 'none',
+      color: 'white'
+    },
+    navLinks: {
+      display: 'flex',
+      gap: '1.5rem',
+      alignItems: 'center'
+    },
+    navLink: {
+      color: 'rgba(255,255,255,0.85)',
+      textDecoration: 'none',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.25rem'
+    },
+    activeNavLink: {
+      color: 'white',
+      fontWeight: '500'
+    },
+    userBadge: {
+      backgroundColor: 'white',
+      color: '#212529',
+      padding: '0.25rem 0.75rem',
+      borderRadius: '0.5rem',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.25rem'
+    },
+    avatar: {
+      backgroundColor: 'white',
+      border: '1px solid #dee2e6',
+      borderRadius: '50%',
+      width: '40px',
+      height: '40px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      cursor: 'pointer'
+    },
+    main: {
+      flexGrow: 1,
+      padding: '1.5rem',
+      maxWidth: '1200px',
+      margin: '0 auto',
+      width: '100%'
+    },
+    header: {
+      marginBottom: '1.5rem'
+    },
+    headerTitle: {
+      fontSize: '1.75rem',
+      fontWeight: 'bold',
+      marginBottom: '0.25rem'
+    },
+    headerSubtitle: {
+      color: '#6c757d'
+    },
+    cardsContainer: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+      gap: '1.5rem',
+      marginBottom: '1.5rem'
+    },
+    card: {
+      backgroundColor: 'white',
+      borderRadius: '0.75rem',
+      boxShadow: '0 0.125rem 0.25rem rgba(0,0,0,0.075)',
+      padding: '1.25rem',
+      display: 'flex',
+      flexDirection: 'column',
+      borderLeft: '4px solid'
+    },
+    cardIncome: {
+      borderLeftColor: '#198754'
+    },
+    cardExpense: {
+      borderLeftColor: '#dc3545'
+    },
+    cardSavings: {
+      borderLeftColor: '#0dcaf0'
+    },
+    cardHeader: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'flex-start',
+      marginBottom: '0.75rem'
+    },
+    cardTitle: {
+      fontSize: '0.75rem',
+      fontWeight: 'bold',
+      textTransform: 'uppercase',
+      color: '#6c757d',
+      letterSpacing: '0.5px'
+    },
+    cardValue: {
+      fontSize: '1.75rem',
+      fontWeight: 'bold',
+      margin: '0.5rem 0'
+    },
+    cardIcon: {
+      backgroundColor: 'rgba(25, 135, 84, 0.1)',
+      padding: '0.75rem',
+      borderRadius: '0.5rem',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    cardExpenseIcon: {
+      backgroundColor: 'rgba(220, 53, 69, 0.1)'
+    },
+    cardSavingsIcon: {
+      backgroundColor: 'rgba(13, 202, 240, 0.1)'
+    },
+    cardBadge: {
+      backgroundColor: 'rgba(25, 135, 84, 0.1)',
+      color: '#198754',
+      padding: '0.25rem 0.5rem',
+      borderRadius: '0.5rem',
+      fontSize: '0.75rem',
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: '0.25rem'
+    },
+    badgeExpense: {
+      backgroundColor: 'rgba(220, 53, 69, 0.1)',
+      color: '#dc3545'
+    },
+    badgeSavings: {
+      backgroundColor: 'rgba(13, 202, 240, 0.1)',
+      color: '#0dcaf0'
+    },
+    contentContainer: {
+      display: 'grid',
+      gridTemplateColumns: '2fr 1fr',
+      gap: '1.5rem'
+    },
+    mainCard: {
+      backgroundColor: 'white',
+      borderRadius: '0.75rem',
+      boxShadow: '0 0.125rem 0.25rem rgba(0,0,0,0.075)',
+      overflow: 'hidden'
+    },
+    cardHeaderTabs: {
+      display: 'flex',
+      borderBottom: '1px solid #dee2e6',
+      padding: '0 1.25rem'
+    },
+    tabButton: {
+      padding: '1rem 1.25rem',
+      background: 'none',
+      border: 'none',
+      cursor: 'pointer',
+      fontSize: '0.875rem',
+      fontWeight: 500,
+      color: '#6c757d',
+      position: 'relative'
+    },
+    activeTabButton: {
+      color: '#0d6efd',
+      fontWeight: 500
+    },
+    activeTabIndicator: {
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      height: '3px',
+      backgroundColor: '#0d6efd'
+    },
+    cardBody: {
+      padding: '1.5rem'
+    },
+    cardHeaderRow: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: '1rem'
+    },
+    cardTitle: {
+      fontSize: '1.25rem',
+      fontWeight: 500,
+      margin: 0
+    },
+    buttonGroup: {
+      display: 'flex',
+      gap: '0.5rem'
+    },
+    button: {
+      padding: '0.375rem 0.75rem',
+      borderRadius: '0.5rem',
+      border: '1px solid #dee2e6',
+      backgroundColor: 'white',
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.25rem',
+      fontSize: '0.875rem'
+    },
+    primaryButton: {
+      backgroundColor: '#0d6efd',
+      color: 'white',
+      border: 'none'
+    },
+    chartContainer: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      marginBottom: '2rem'
+    },
+    chartHeader: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      marginBottom: '1rem',
+      alignItems: 'center'
+    },
+    chartLegend: {
+      display: 'flex',
+      gap: '1rem',
+      alignItems: 'center'
+    },
+    legendItem: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.25rem'
+    },
+    colorIndicator: {
+      width: '10px',
+      height: '10px',
+      borderRadius: '50%',
+      display: 'inline-block'
+    },
+    chartBars: {
+      display: 'flex',
+      alignItems: 'flex-end',
+      height: '200px',
+      gap: '0.5rem'
+    },
+    chartBarGroup: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      flex: 1
+    },
+    barContainer: {
+      display: 'flex',
+      alignItems: 'flex-end',
+      width: '100%',
+      height: '100%',
+      gap: '0.25rem'
+    },
+    incomeBar: {
+      backgroundColor: '#198754',
+      opacity: 0.8,
+      borderRadius: '0.25rem 0.25rem 0 0',
+      flex: 1
+    },
+    expenseBar: {
+      backgroundColor: '#dc3545',
+      opacity: 0.8,
+      borderRadius: '0.25rem 0.25rem 0 0',
+      flex: 1
+    },
+    monthLabel: {
+      color: '#6c757d',
+      fontSize: '0.75rem',
+      marginTop: '0.25rem'
+    },
+    transactionList: {
+      marginTop: '1.5rem'
+    },
+    transactionItem: {
+      display: 'flex',
+      alignItems: 'center',
+      padding: '1rem',
+      borderBottom: '1px solid #e9ecef'
+    },
+    transactionIcon: {
+      backgroundColor: '#e9ecef',
+      padding: '0.75rem',
+      borderRadius: '0.5rem',
+      marginRight: '1rem',
+      fontSize: '1.25rem'
+    },
+    incomeIcon: {
+      backgroundColor: 'rgba(25, 135, 84, 0.1)',
+      color: '#198754'
+    },
+    expenseIcon: {
+      backgroundColor: 'rgba(220, 53, 69, 0.1)',
+      color: '#dc3545'
+    },
+    transactionDetails: {
+      flexGrow: 1
+    },
+    transactionName: {
+      fontWeight: 500,
+      marginBottom: '0.25rem'
+    },
+    transactionMeta: {
+      color: '#6c757d',
+      fontSize: '0.875rem'
+    },
+    transactionAmount: {
+      fontWeight: 'bold',
+      fontSize: '1rem'
+    },
+    incomeAmount: {
+      color: '#198754'
+    },
+    expenseAmount: {
+      color: '#dc3545'
+    },
+    viewAllButton: {
+      display: 'block',
+      textAlign: 'center',
+      padding: '1rem',
+      color: '#0d6efd',
+      textDecoration: 'none',
+      fontWeight: 500
+    },
+    sidebarCard: {
+      backgroundColor: 'white',
+      borderRadius: '0.75rem',
+      boxShadow: '0 0.125rem 0.25rem rgba(0,0,0,0.075)',
+      marginBottom: '1.5rem',
+      overflow: 'hidden'
+    },
+    sidebarCardHeader: {
+      padding: '1rem 1.25rem',
+      borderBottom: '1px solid #dee2e6',
+      fontSize: '1.125rem',
+      fontWeight: 500
+    },
+    sidebarCardBody: {
+      padding: '1.25rem'
+    },
+    progressContainer: {
+      marginBottom: '1rem'
+    },
+    progressLabel: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      marginBottom: '0.5rem',
+      color: '#6c757d',
+      fontSize: '0.875rem'
+    },
+    progressBar: {
+      height: '10px',
+      backgroundColor: '#e9ecef',
+      borderRadius: '5px',
+      overflow: 'hidden'
+    },
+    progressFill: {
+      height: '100%',
+      backgroundColor: '#dc3545',
+      borderRadius: '5px'
+    },
+    budgetDetails: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      marginTop: '1rem',
+      paddingTop: '1rem',
+      borderTop: '1px solid #e9ecef',
+      color: '#6c757d',
+      fontSize: '0.875rem'
+    },
+    budgetAmount: {
+      fontWeight: 'bold',
+      color: '#212529'
+    },
+    quickActions: {
+      display: 'grid',
+      gap: '0.75rem'
+    },
+    actionButton: {
+      padding: '0.75rem',
+      borderRadius: '0.5rem',
+      border: '1px solid #dee2e6',
+      backgroundColor: 'white',
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.5rem',
+      textAlign: 'left',
+      fontSize: '1rem',
+      fontWeight: 500,
+      color: '#0d6efd'
+    },
+    footer: {
+      backgroundColor: 'white',
+      borderTop: '1px solid #dee2e6',
+      padding: '1.5rem',
+      marginTop: 'auto'
+    },
+    footerContainer: {
+      maxWidth: '1200px',
+      margin: '0 auto',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center'
+    },
+    footerText: {
+      color: '#6c757d',
+      fontSize: '0.875rem'
+    },
+    heartIcon: {
+      color: '#dc3545',
+      margin: '0 0.25rem'
     }
   };
 
   return (
-    <div className="min-vh-100 d-flex flex-column" style={{ backgroundColor: '#f8f9fa' }}>
+    <div style={styles.app}>
       {/* Navigation Bar */}
-      <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
-        <div className="container">
-          <a className="navbar-brand d-flex align-items-center" href="#">
-            <i className="bi bi-cash-coin fs-3 me-2"></i>
-            <span className="fw-bold">FinTrack</span>
+      <nav style={styles.navbar}>
+        <div style={styles.navbarContainer}>
+          <a href="#" style={styles.brand}>
+            <span>💰</span>
+            <span style={{ marginLeft: '0.5rem' }}>FinTrack</span>
           </a>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav me-auto">
-              <li className="nav-item">
-                <a className="nav-link active" href="#"><i className="bi bi-speedometer2 me-1"></i> Dashboard</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#"><i className="bi bi-graph-up me-1"></i> Reports</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#"><i className="bi bi-wallet me-1"></i> Budget</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#"><i className="bi bi-credit-card me-1"></i> Accounts</a>
-              </li>
-            </ul>
-            <div className="d-flex align-items-center">
-              <div className="badge bg-light text-dark me-3 px-3 py-2">
-                <i className="bi bi-person me-1"></i>
-                <span className="text-capitalize">{role}</span>
-              </div>
-              <div className="dropdown">
-                <button className="btn btn-light rounded-circle p-0" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
-                  <div className="bg-light border rounded-circle d-flex align-items-center justify-content-center" style={{ width: '40px', height: '40px' }}>
-                    <i className="bi bi-person fs-5"></i>
-                  </div>
-                </button>
-                <ul className="dropdown-menu dropdown-menu-end">
-                  <li><a className="dropdown-item" href="#"><i className="bi bi-person me-2"></i>Profile</a></li>
-                  <li><a className="dropdown-item" href="#"><i className="bi bi-gear me-2"></i>Settings</a></li>
-                  <li><hr className="dropdown-divider" /></li>
-                  <li><a className="dropdown-item" href="#"><i className="bi bi-box-arrow-right me-2"></i>Logout</a></li>
-                </ul>
-              </div>
+          
+          <div style={styles.navLinks}>
+            <a href="#" style={{ ...styles.navLink, ...styles.activeNavLink }}>
+              <span>📊</span>
+              <span>Dashboard</span>
+            </a>
+            <a href="#" style={styles.navLink}>
+              <span>📈</span>
+              <span>Reports</span>
+            </a>
+            <a href="#" style={styles.navLink}>
+              <span>💼</span>
+              <span>Budget</span>
+            </a>
+            <a href="#" style={styles.navLink}>
+              <span>💳</span>
+              <span>Accounts</span>
+            </a>
+            
+            <div style={styles.userBadge}>
+              <span>👤</span>
+              <span style={{ textTransform: 'capitalize' }}>{role}</span>
+            </div>
+            
+            <div style={styles.avatar}>
+              <span>👤</span>
             </div>
           </div>
         </div>
       </nav>
 
       {/* Main Content */}
-      <main className="flex-grow-1 py-4">
-        <div className="container">
-          {/* Welcome Header */}
-          <div className="row mb-4">
-            <div className="col">
-              <h1 className="fw-bold text-dark mb-1">Good {timeOfDay}, <span className="text-capitalize">{role}</span>!</h1>
-              <p className="text-muted">Track and manage your finances efficiently</p>
+      <main style={styles.main}>
+        {/* Welcome Header */}
+        <div style={styles.header}>
+          <h1 style={styles.headerTitle}>
+            Good {timeOfDay}, <span style={{ textTransform: 'capitalize' }}>{role}</span>!
+          </h1>
+          <p style={styles.headerSubtitle}>Track and manage your finances efficiently</p>
+        </div>
+
+        {/* Financial Summary Cards */}
+        <div style={styles.cardsContainer}>
+          {/* Income Card */}
+          <div style={{ ...styles.card, ...styles.cardIncome }}>
+            <div style={styles.cardHeader}>
+              <div>
+                <div style={styles.cardTitle}>Total Income</div>
+                <div style={styles.cardValue}>{formatCurrency(summary.income || 0)}</div>
+              </div>
+              <div style={styles.cardIcon}>
+                <span>📈</span>
+              </div>
+            </div>
+            <div style={{ ...styles.cardBadge }}>
+              <span>⬆️</span>
+              <span>12% from last month</span>
             </div>
           </div>
-
-          {/* Financial Summary Cards */}
-          <div className="row g-4 mb-4">
-            <div className="col-md-4">
-              <div className="card border-start border-4 border-success h-100 shadow-sm">
-                <div className="card-body">
-                  <div className="d-flex justify-content-between">
-                    <div>
-                      <h6 className="text-uppercase text-muted small fw-bold">Total Income</h6>
-                      <h3 className="fw-bold mt-2">{formatCurrency(summary.income || 0)}</h3>
-                    </div>
-                    <div className="bg-success bg-opacity-10 p-3 rounded">
-                      <i className="bi bi-arrow-up-circle fs-3 text-success"></i>
-                    </div>
-                  </div>
-                  <div className="mt-3">
-                    <span className="badge bg-success bg-opacity-10 text-success">
-                      <i className="bi bi-arrow-up me-1"></i>12% from last month
-                    </span>
-                  </div>
-                </div>
+          
+          {/* Expense Card */}
+          <div style={{ ...styles.card, ...styles.cardExpense }}>
+            <div style={styles.cardHeader}>
+              <div>
+                <div style={styles.cardTitle}>Total Expenses</div>
+                <div style={styles.cardValue}>{formatCurrency(summary.expenses || 0)}</div>
+              </div>
+              <div style={{ ...styles.cardIcon, ...styles.cardExpenseIcon }}>
+                <span>📉</span>
               </div>
             </div>
-            
-            <div className="col-md-4">
-              <div className="card border-start border-4 border-danger h-100 shadow-sm">
-                <div className="card-body">
-                  <div className="d-flex justify-content-between">
-                    <div>
-                      <h6 className="text-uppercase text-muted small fw-bold">Total Expenses</h6>
-                      <h3 className="fw-bold mt-2">{formatCurrency(summary.expenses || 0)}</h3>
-                    </div>
-                    <div className="bg-danger bg-opacity-10 p-3 rounded">
-                      <i className="bi bi-arrow-down-circle fs-3 text-danger"></i>
-                    </div>
-                  </div>
-                  <div className="mt-3">
-                    <span className="badge bg-danger bg-opacity-10 text-danger">
-                      <i className="bi bi-arrow-up me-1"></i>5% from last month
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="col-md-4">
-              <div className="card border-start border-4 border-info h-100 shadow-sm">
-                <div className="card-body">
-                  <div className="d-flex justify-content-between">
-                    <div>
-                      <h6 className="text-uppercase text-muted small fw-bold">Current Savings</h6>
-                      <h3 className="fw-bold mt-2">{formatCurrency(summary.savings || 0)}</h3>
-                    </div>
-                    <div className="bg-info bg-opacity-10 p-3 rounded">
-                      <i className="bi bi-piggy-bank fs-3 text-info"></i>
-                    </div>
-                  </div>
-                  <div className="mt-3">
-                    <span className="badge bg-info bg-opacity-10 text-info">
-                      <i className="bi bi-arrow-up me-1"></i>18% from last month
-                    </span>
-                  </div>
-                </div>
-              </div>
+            <div style={{ ...styles.cardBadge, ...styles.badgeExpense }}>
+              <span>⬆️</span>
+              <span>5% from last month</span>
             </div>
           </div>
+          
+          {/* Savings Card */}
+          <div style={{ ...styles.card, ...styles.cardSavings }}>
+            <div style={styles.cardHeader}>
+              <div>
+                <div style={styles.cardTitle}>Current Savings</div>
+                <div style={styles.cardValue}>{formatCurrency(summary.savings || 0)}</div>
+              </div>
+              <div style={{ ...styles.cardIcon, ...styles.cardSavingsIcon }}>
+                <span>💰</span>
+              </div>
+            </div>
+            <div style={{ ...styles.cardBadge, ...styles.badgeSavings }}>
+              <span>⬆️</span>
+              <span>18% from last month</span>
+            </div>
+          </div>
+        </div>
 
-          {/* Dashboard Content */}
-          <div className="row g-4">
-            {/* Left Column */}
-            <div className="col-lg-8">
-              <div className="card shadow-sm">
-                <div className="card-header bg-white border-bottom">
-                  <ul className="nav nav-tabs card-header-tabs">
-                    <li className="nav-item">
-                      <button 
-                        className={`nav-link ${activeTab === 'overview' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('overview')}
-                      >
-                        Overview
+        {/* Dashboard Content */}
+        <div style={styles.contentContainer}>
+          {/* Left Column */}
+          <div style={styles.mainCard}>
+            <div style={styles.cardHeaderTabs}>
+              <button 
+                style={{ 
+                  ...styles.tabButton, 
+                  ...(activeTab === 'overview' ? styles.activeTabButton : {}) 
+                }}
+                onClick={() => setActiveTab('overview')}
+              >
+                Overview
+                {activeTab === 'overview' && <div style={styles.activeTabIndicator}></div>}
+              </button>
+              <button 
+                style={{ 
+                  ...styles.tabButton, 
+                  ...(activeTab === 'transactions' ? styles.activeTabButton : {}) 
+                }}
+                onClick={() => setActiveTab('transactions')}
+              >
+                Transactions
+                {activeTab === 'transactions' && <div style={styles.activeTabIndicator}></div>}
+              </button>
+              <button 
+                style={{ 
+                  ...styles.tabButton, 
+                  ...(activeTab === 'reports' ? styles.activeTabButton : {}) 
+                }}
+                onClick={() => setActiveTab('reports')}
+              >
+                Reports
+                {activeTab === 'reports' && <div style={styles.activeTabIndicator}></div>}
+              </button>
+            </div>
+            
+            <div style={styles.cardBody}>
+              {activeTab === 'overview' && (
+                <div>
+                  <div style={styles.cardHeaderRow}>
+                    <h2 style={styles.cardTitle}>Financial Overview</h2>
+                    <div style={styles.buttonGroup}>
+                      <button style={styles.button}>
+                        Last 30 days <span>⬇️</span>
                       </button>
-                    </li>
-                    <li className="nav-item">
-                      <button 
-                        className={`nav-link ${activeTab === 'transactions' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('transactions')}
-                      >
-                        Transactions
+                      <button style={{ ...styles.button, ...styles.primaryButton }}>
+                        <span>➕</span> Add Transaction
                       </button>
-                    </li>
-                    <li className="nav-item">
-                      <button 
-                        className={`nav-link ${activeTab === 'reports' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('reports')}
-                      >
-                        Reports
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-                <div className="card-body">
-                  {activeTab === 'overview' && (
-                    <div>
-                      <div className="d-flex justify-content-between align-items-center mb-4">
-                        <h5 className="card-title mb-0">Financial Overview</h5>
-                        <div className="d-flex gap-2">
-                          <button className="btn btn-outline-secondary btn-sm">
-                            Last 30 days <i className="bi bi-chevron-down ms-1"></i>
-                          </button>
-                          <button className="btn btn-primary btn-sm">
-                            <i className="bi bi-plus me-1"></i> Add Transaction
-                          </button>
-                        </div>
-                      </div>
-                      
-                      <div className="mb-4">
-                        <div className="d-flex justify-content-between mb-3">
-                          <span className="text-muted">Income vs Expenses</span>
-                          <div className="d-flex gap-3">
-                            <span className="d-flex align-items-center">
-                              <span className="d-inline-block bg-success rounded me-1" style={{ width: '10px', height: '10px' }}></span>
-                              <small className="text-muted">Income</small>
-                            </span>
-                            <span className="d-flex align-items-center">
-                              <span className="d-inline-block bg-danger rounded me-1" style={{ width: '10px', height: '10px' }}></span>
-                              <small className="text-muted">Expenses</small>
-                            </span>
+                    </div>
+                  </div>
+                  
+                  <div style={styles.chartContainer}>
+                    <div style={{ flex: 1 }}>
+                      <div style={styles.chartHeader}>
+                        <div style={{ color: '#6c757d' }}>Income vs Expenses</div>
+                        <div style={styles.chartLegend}>
+                          <div style={styles.legendItem}>
+                            <span style={{ ...styles.colorIndicator, backgroundColor: '#198754' }}></span>
+                            <span style={{ fontSize: '0.875rem' }}>Income</span>
+                          </div>
+                          <div style={styles.legendItem}>
+                            <span style={{ ...styles.colorIndicator, backgroundColor: '#dc3545' }}></span>
+                            <span style={{ fontSize: '0.875rem' }}>Expenses</span>
                           </div>
                         </div>
-                        
-                        <div className="d-flex align-items-end" style={{ height: '200px' }}>
-                          {[70, 85, 65, 90, 75, 100].map((height, idx) => (
-                            <div key={idx} className="flex-fill d-flex flex-column align-items-center me-2">
-                              <div className="d-flex align-items-end" style={{ height: '100%', width: '100%' }}>
-                                <div 
-                                  className="bg-success rounded-top" 
-                                  style={{ 
-                                    width: '100%', 
-                                    height: `${height}%`,
-                                    opacity: 0.8
-                                  }}
-                                ></div>
-                                <div 
-                                  className="bg-danger rounded-top ms-1" 
-                                  style={{ 
-                                    width: '100%', 
-                                    height: `${height/2}%`,
-                                    opacity: 0.8
-                                  }}
-                                ></div>
-                              </div>
-                              <small className="text-muted mt-1">{['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'][idx]}</small>
-                            </div>
-                          ))}
-                        </div>
                       </div>
                       
-                      <h5 className="card-title mb-3">Recent Transactions</h5>
-                      <div className="list-group">
-                        {transactions.map(transaction => (
-                          <div 
-                            key={transaction.id} 
-                            className="list-group-item list-group-item-action border-0 py-3"
-                          >
-                            <div className="d-flex align-items-center">
-                              <div className={`bg-${transaction.type === 'income' ? 'success' : 'danger'}-subtle p-2 rounded me-3`}>
-                                <i className={`bi ${getCategoryIcon(transaction.category)} fs-4 text-${transaction.type === 'income' ? 'success' : 'danger'}`}></i>
-                              </div>
-                              <div className="flex-grow-1">
-                                <h6 className="mb-0">{transaction.name}</h6>
-                                <small className="text-muted">{new Date(transaction.date).toLocaleDateString()} • {transaction.category}</small>
-                              </div>
-                              <div className={`fw-bold ${transaction.type === 'income' ? 'text-success' : 'text-danger'}`}>
-                                {formatCurrency(transaction.amount)}
-                              </div>
+                      <div style={styles.chartBars}>
+                        {[70, 85, 65, 90, 75, 100].map((height, idx) => (
+                          <div key={idx} style={styles.chartBarGroup}>
+                            <div style={styles.barContainer}>
+                              <div style={{ ...styles.incomeBar, height: `${height}%` }}></div>
+                              <div style={{ ...styles.expenseBar, height: `${height/2}%` }}></div>
+                            </div>
+                            <div style={styles.monthLabel}>
+                              {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'][idx]}
                             </div>
                           </div>
                         ))}
                       </div>
-                      <div className="text-center mt-3">
-                        <button className="btn btn-link text-decoration-none">
-                          View all transactions <i className="bi bi-arrow-right ms-1"></i>
+                    </div>
+                  </div>
+                  
+                  <h2 style={styles.cardTitle}>Recent Transactions</h2>
+                  <div style={styles.transactionList}>
+                    {transactions.map(transaction => (
+                      <div key={transaction.id} style={styles.transactionItem}>
+                        <div style={{ 
+                          ...styles.transactionIcon, 
+                          ...(transaction.type === 'income' ? styles.incomeIcon : styles.expenseIcon)
+                        }}>
+                          {getCategoryIcon(transaction.category)}
+                        </div>
+                        <div style={styles.transactionDetails}>
+                          <div style={styles.transactionName}>{transaction.name}</div>
+                          <div style={styles.transactionMeta}>
+                            {new Date(transaction.date).toLocaleDateString()} • {transaction.category}
+                          </div>
+                        </div>
+                        <div style={{ 
+                          ...styles.transactionAmount,
+                          ...(transaction.type === 'income' ? styles.incomeAmount : styles.expenseAmount)
+                        }}>
+                          {formatCurrency(transaction.amount)}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <a href="#" style={styles.viewAllButton}>
+                    View all transactions →
+                  </a>
+                </div>
+              )}
+              
+              {activeTab === 'transactions' && (
+                <div>
+                  <h2 style={styles.cardTitle}>Transaction History</h2>
+                  <div style={{ ...styles.cardHeaderRow, marginBottom: '1.5rem' }}>
+                    <div style={styles.buttonGroup}>
+                      <button style={{ ...styles.button, ...styles.primaryButton }}>All</button>
+                      <button style={styles.button}>Income</button>
+                      <button style={styles.button}>Expenses</button>
+                    </div>
+                    <div style={styles.buttonGroup}>
+                      <div style={{ display: 'flex', gap: '0.25rem' }}>
+                        <input 
+                          type="text" 
+                          placeholder="Search transactions..." 
+                          style={{
+                            padding: '0.375rem 0.75rem',
+                            borderRadius: '0.5rem',
+                            border: '1px solid #dee2e6',
+                            fontSize: '0.875rem'
+                          }}
+                        />
+                        <button style={styles.button}>
+                          <span>🔍</span>
                         </button>
                       </div>
+                      <button style={{ ...styles.button, ...styles.primaryButton }}>
+                        <span>➕</span> New
+                      </button>
                     </div>
-                  )}
+                  </div>
                   
-                  {activeTab === 'transactions' && (
-                    <div>
-                      <h5 className="card-title mb-4">Transaction History</h5>
-                      <div className="d-flex justify-content-between mb-4">
-                        <div className="d-flex gap-2">
-                          <button className="btn btn-outline-primary">All</button>
-                          <button className="btn btn-outline-secondary">Income</button>
-                          <button className="btn btn-outline-secondary">Expenses</button>
-                        </div>
-                        <div className="d-flex gap-2">
-                          <div className="input-group input-group-sm">
-                            <input type="text" className="form-control" placeholder="Search transactions..." />
-                            <button className="btn btn-outline-secondary">
-                              <i className="bi bi-search"></i>
-                            </button>
-                          </div>
-                          <button className="btn btn-primary btn-sm">
-                            <i className="bi bi-plus me-1"></i> New
-                          </button>
-                        </div>
-                      </div>
-                      
-                      <div className="table-responsive">
-                        <table className="table table-hover">
-                          <thead>
-                            <tr>
-                              <th>Description</th>
-                              <th>Category</th>
-                              <th>Date</th>
-                              <th className="text-end">Amount</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {financialData?.transactions.map(transaction => (
-                              <tr key={transaction.id}>
-                                <td>
-                                  <div className="d-flex align-items-center">
-                                    <i className={`bi ${getCategoryIcon(transaction.category)} me-2 text-${transaction.type === 'income' ? 'success' : 'danger'}`}></i>
-                                    {transaction.name}
-                                  </div>
-                                </td>
-                                <td>
-                                  <span className="badge bg-light text-dark">{transaction.category}</span>
-                                </td>
-                                <td>{new Date(transaction.date).toLocaleDateString()}</td>
-                                <td className={`fw-bold text-end ${transaction.type === 'income' ? 'text-success' : 'text-danger'}`}>
-                                  {formatCurrency(transaction.amount)}
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {activeTab === 'reports' && (
-                    <div>
-                      <h5 className="card-title mb-4">Financial Reports</h5>
-                      <div className="row">
-                        <div className="col-md-6">
-                          <div className="card border-0 shadow-sm mb-4">
-                            <div className="card-body">
-                              <h6 className="card-title text-muted">Expense Breakdown</h6>
-                              <div className="mt-4">
-                                {['Housing', 'Food', 'Utilities', 'Transportation', 'Entertainment'].map((cat, idx) => (
-                                  <div key={cat} className="mb-3">
-                                    <div className="d-flex justify-content-between mb-1">
-                                      <span className="small">{cat}</span>
-                                      <span className="small fw-bold">{idx === 0 ? '48%' : idx === 1 ? '22%' : idx === 2 ? '15%' : idx === 3 ? '10%' : '5%'}</span>
-                                    </div>
-                                    <div className="progress" style={{ height: '8px' }}>
-                                      <div 
-                                        className="progress-bar" 
-                                        role="progressbar" 
-                                        style={{ 
-                                          width: `${idx === 0 ? 48 : idx === 1 ? 22 : idx === 2 ? 15 : idx === 3 ? 10 : 5}%`,
-                                          backgroundColor: idx === 0 ? '#0d6efd' : idx === 1 ? '#6610f2' : idx === 2 ? '#6f42c1' : idx === 3 ? '#d63384' : '#fd7e14'
-                                        }}
-                                      ></div>
-                                    </div>
-                                  </div>
-                                ))}
+                  <div style={{ overflowX: 'auto' }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                      <thead>
+                        <tr style={{ backgroundColor: '#f8f9fa' }}>
+                          <th style={{ padding: '0.75rem', textAlign: 'left', fontWeight: 500 }}>Description</th>
+                          <th style={{ padding: '0.75rem', textAlign: 'left', fontWeight: 500 }}>Category</th>
+                          <th style={{ padding: '0.75rem', textAlign: 'left', fontWeight: 500 }}>Date</th>
+                          <th style={{ padding: '0.75rem', textAlign: 'right', fontWeight: 500 }}>Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {financialData?.transactions.map(transaction => (
+                          <tr key={transaction.id} style={{ borderBottom: '1px solid #e9ecef' }}>
+                            <td style={{ padding: '0.75rem' }}>
+                              <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <span style={{ marginRight: '0.5rem' }}>
+                                  {getCategoryIcon(transaction.category)}
+                                </span>
+                                {transaction.name}
                               </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="card border-0 shadow-sm">
-                            <div className="card-body">
-                              <h6 className="card-title text-muted">Income Sources</h6>
-                              <div className="d-flex justify-content-center mt-4">
-                                <div className="position-relative" style={{ width: '200px', height: '200px' }}>
-                                  <div className="position-absolute top-50 start-50 translate-middle">
-                                    <h5 className="mb-0">Total</h5>
-                                    <p className="mb-0 text-center">{formatCurrency(summary.income || 0)}</p>
-                                  </div>
-                                  <canvas id="incomeChart" height="200"></canvas>
-                                </div>
-                              </div>
-                              <div className="mt-3">
-                                <div className="d-flex justify-content-around">
-                                  <div className="text-center">
-                                    <span className="d-inline-block rounded-circle bg-primary" style={{ width: '10px', height: '10px' }}></span>
-                                    <small className="ms-1">Salary: 75%</small>
-                                  </div>
-                                  <div className="text-center">
-                                    <span className="d-inline-block rounded-circle bg-success" style={{ width: '10px', height: '10px' }}></span>
-                                    <small className="ms-1">Freelance: 20%</small>
-                                  </div>
-                                  <div className="text-center">
-                                    <span className="d-inline-block rounded-circle bg-info" style={{ width: '10px', height: '10px' }}></span>
-                                    <small className="ms-1">Investments: 5%</small>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                            </td>
+                            <td style={{ padding: '0.75rem' }}>
+                              <span style={{ 
+                                backgroundColor: '#e9ecef', 
+                                padding: '0.25rem 0.5rem', 
+                                borderRadius: '0.5rem', 
+                                fontSize: '0.875rem' 
+                              }}>
+                                {transaction.category}
+                              </span>
+                            </td>
+                            <td style={{ padding: '0.75rem' }}>
+                              {new Date(transaction.date).toLocaleDateString()}
+                            </td>
+                            <td style={{ 
+                              padding: '0.75rem', 
+                              textAlign: 'right', 
+                              fontWeight: 'bold',
+                              color: transaction.type === 'income' ? '#198754' : '#dc3545'
+                            }}>
+                              {formatCurrency(transaction.amount)}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
+              )}
+              
+              {activeTab === 'reports' && (
+                <div>
+                  <h2 style={styles.cardTitle}>Financial Reports</h2>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+                    <div style={styles.sidebarCard}>
+                      <div style={styles.sidebarCardHeader}>Expense Breakdown</div>
+                      <div style={styles.sidebarCardBody}>
+                        {['Housing', 'Food', 'Utilities', 'Transportation', 'Entertainment'].map((cat, idx) => (
+                          <div key={cat} style={{ marginBottom: '1.25rem' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                              <span style={{ fontSize: '0.875rem' }}>{cat}</span>
+                              <span style={{ fontSize: '0.875rem', fontWeight: 'bold' }}>
+                                {idx === 0 ? '48%' : idx === 1 ? '22%' : idx === 2 ? '15%' : idx === 3 ? '10%' : '5%'}
+                              </span>
+                            </div>
+                            <div style={styles.progressBar}>
+                              <div 
+                                style={{ 
+                                  ...styles.progressFill, 
+                                  width: `${idx === 0 ? 48 : idx === 1 ? 22 : idx === 2 ? 15 : idx === 3 ? 10 : 5}%`,
+                                  backgroundColor: idx === 0 ? '#0d6efd' : idx === 1 ? '#6610f2' : 
+                                                 idx === 2 ? '#6f42c1' : idx === 3 ? '#d63384' : '#fd7e14'
+                                }}
+                              ></div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div style={styles.sidebarCard}>
+                      <div style={styles.sidebarCardHeader}>Income Sources</div>
+                      <div style={styles.sidebarCardBody}>
+                        <div style={{ 
+                          display: 'flex', 
+                          justifyContent: 'center',
+                          position: 'relative',
+                          height: '200px',
+                          alignItems: 'center'
+                        }}>
+                          <div style={{ textAlign: 'center' }}>
+                            <div style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>Total</div>
+                            <div>{formatCurrency(summary.income || 0)}</div>
+                          </div>
+                          {/* Pie chart representation would go here */}
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '1rem' }}>
+                          <div style={{ textAlign: 'center' }}>
+                            <div style={{ ...styles.colorIndicator, backgroundColor: '#0d6efd' }}></div>
+                            <div style={{ fontSize: '0.875rem' }}>Salary: 75%</div>
+                          </div>
+                          <div style={{ textAlign: 'center' }}>
+                            <div style={{ ...styles.colorIndicator, backgroundColor: '#198754' }}></div>
+                            <div style={{ fontSize: '0.875rem' }}>Freelance: 20%</div>
+                          </div>
+                          <div style={{ textAlign: 'center' }}>
+                            <div style={{ ...styles.colorIndicator, backgroundColor: '#0dcaf0' }}></div>
+                            <div style={{ fontSize: '0.875rem' }}>Investments: 5%</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+          
+          {/* Right Column */}
+          <div>
+            <div style={styles.sidebarCard}>
+              <div style={styles.sidebarCardHeader}>Monthly Budget</div>
+              <div style={styles.sidebarCardBody}>
+                <div style={styles.progressContainer}>
+                  <div style={styles.progressLabel}>
+                    <span>Spent this month</span>
+                    <span>{formatCurrency(summary.expenses || 0)}</span>
+                  </div>
+                  <div style={styles.progressBar}>
+                    <div 
+                      style={{ 
+                        ...styles.progressFill, 
+                        width: `${((summary.expenses || 0) / (financialData?.budget || 2500) * 100}%` 
+                      }}
+                    ></div>
+                  </div>
+                </div>
+                
+                <div style={styles.budgetDetails}>
+                  <span>Remaining</span>
+                  <span style={styles.budgetAmount}>
+                    {formatCurrency((financialData?.budget || 2500) - (summary.expenses || 0))}
+                  </span>
+                </div>
+                
+                <div style={styles.budgetDetails}>
+                  <span>Budget limit</span>
+                  <span style={styles.budgetAmount}>
+                    {formatCurrency(financialData?.budget || 2500)}
+                  </span>
+                </div>
+                
+                <button style={{ 
+                  ...styles.button, 
+                  width: '100%',
+                  marginTop: '1rem',
+                  justifyContent: 'center'
+                }}>
+                  <span>✏️</span> Edit Budget
+                </button>
               </div>
             </div>
             
-            {/* Right Column */}
-            <div className="col-lg-4">
-              <div className="card shadow-sm mb-4">
-                <div className="card-header bg-white border-bottom">
-                  <h5 className="card-title mb-0">Monthly Budget</h5>
-                </div>
-                <div className="card-body">
-                  <div className="d-flex justify-content-between mb-3">
-                    <span className="text-muted">Spent this month</span>
-                    <span className="fw-bold">{formatCurrency(summary.expenses || 0)}</span>
-                  </div>
-                  <div className="progress mb-2" style={{ height: '10px' }}>
-                    <div 
-                      className="progress-bar bg-danger" 
-                      role="progressbar" 
-                      style={{ width: `${((summary.expenses || 0) / (financialData?.budget || 2500) * 100}%` }}
-                    ></div>
-                  </div>
-                  <div className="d-flex justify-content-between">
-                    <span className="text-muted">Remaining</span>
-                    <span className="fw-bold">{formatCurrency((financialData?.budget || 2500) - (summary.expenses || 0))}</span>
-                  </div>
-                  
-                  <div className="mt-4">
-                    <div className="d-flex justify-content-between mb-2">
-                      <span className="text-muted">Budget limit</span>
-                      <span className="fw-bold">{formatCurrency(financialData?.budget || 2500)}</span>
-                    </div>
-                  </div>
-                  
-                  <button className="btn btn-outline-primary w-100 mt-3">
-                    <i className="bi bi-pencil me-2"></i>Edit Budget
+            <div style={styles.sidebarCard}>
+              <div style={styles.sidebarCardHeader}>Quick Actions</div>
+              <div style={styles.sidebarCardBody}>
+                <div style={styles.quickActions}>
+                  <button style={styles.actionButton}>
+                    <span>➕</span> Add Income
                   </button>
-                </div>
-              </div>
-              
-              <div className="card shadow-sm">
-                <div className="card-header bg-white border-bottom">
-                  <h5 className="card-title mb-0">Quick Actions</h5>
-                </div>
-                <div className="card-body">
-                  <div className="d-grid gap-2">
-                    <button className="btn btn-outline-primary text-start">
-                      <i className="bi bi-plus-circle me-2"></i> Add Income
-                    </button>
-                    <button className="btn btn-outline-primary text-start">
-                      <i className="bi bi-dash-circle me-2"></i> Add Expense
-                    </button>
-                    <button className="btn btn-outline-primary text-start">
-                      <i className="bi bi-credit-card me-2"></i> Manage Accounts
-                    </button>
-                    <button className="btn btn-outline-primary text-start">
-                      <i className="bi bi-graph-up me-2"></i> Generate Report
-                    </button>
-                  </div>
+                  <button style={styles.actionButton}>
+                    <span>➖</span> Add Expense
+                  </button>
+                  <button style={styles.actionButton}>
+                    <span>💳</span> Manage Accounts
+                  </button>
+                  <button style={styles.actionButton}>
+                    <span>📊</span> Generate Report
+                  </button>
                 </div>
               </div>
             </div>
@@ -519,20 +963,14 @@ const Home = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-top mt-auto py-4">
-        <div className="container">
-          <div className="row align-items-center">
-            <div className="col-md-6">
-              <p className="mb-0 text-muted">
-                © {new Date().getFullYear()} Kapilraj KC. All rights reserved.
-              </p>
-            </div>
-            <div className="col-md-6 text-md-end">
-              <p className="mb-0 text-muted">
-                Designed and developed with <i className="bi bi-heart-fill text-danger"></i>
-              </p>
-            </div>
-          </div>
+      <footer style={styles.footer}>
+        <div style={styles.footerContainer}>
+          <p style={styles.footerText}>
+            © {new Date().getFullYear()} Kapilraj KC. All rights reserved.
+          </p>
+          <p style={styles.footerText}>
+            Designed and developed with <span style={styles.heartIcon}>❤️</span>
+          </p>
         </div>
       </footer>
     </div>
