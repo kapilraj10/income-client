@@ -90,19 +90,17 @@ const Home = () => {
       display: 'flex',
       flexDirection: 'column',
       backgroundColor: '#f8f9fa',
-      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      color: '#343a40'
+      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
     },
     navbar: {
       backgroundColor: '#0d6efd',
-      color: 'white',
-      padding: '0.5rem 1rem',
-      boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+      padding: '16px',
+      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
       position: 'sticky',
       top: 0,
       zIndex: 100
     },
-    navbarContainer: {
+    navContainer: {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
@@ -115,12 +113,12 @@ const Home = () => {
       alignItems: 'center',
       fontSize: '1.5rem',
       fontWeight: 'bold',
-      textDecoration: 'none',
-      color: 'white'
+      color: 'white',
+      textDecoration: 'none'
     },
     navLinks: {
       display: 'flex',
-      gap: '1.5rem',
+      gap: '20px',
       alignItems: 'center'
     },
     navLink: {
@@ -128,20 +126,20 @@ const Home = () => {
       textDecoration: 'none',
       display: 'flex',
       alignItems: 'center',
-      gap: '0.25rem'
+      gap: '4px'
     },
     activeNavLink: {
       color: 'white',
-      fontWeight: '500'
+      fontWeight: 500
     },
     userBadge: {
       backgroundColor: 'white',
       color: '#212529',
-      padding: '0.25rem 0.75rem',
-      borderRadius: '0.5rem',
+      padding: '4px 12px',
+      borderRadius: '8px',
       display: 'flex',
       alignItems: 'center',
-      gap: '0.25rem'
+      gap: '4px'
     },
     avatar: {
       backgroundColor: 'white',
@@ -155,34 +153,36 @@ const Home = () => {
       cursor: 'pointer'
     },
     main: {
-      flexGrow: 1,
-      padding: '1.5rem',
+      flex: 1,
+      padding: '24px',
       maxWidth: '1200px',
       margin: '0 auto',
       width: '100%'
     },
     header: {
-      marginBottom: '1.5rem'
+      marginBottom: '24px'
     },
     headerTitle: {
       fontSize: '1.75rem',
       fontWeight: 'bold',
-      marginBottom: '0.25rem'
+      marginBottom: '4px',
+      color: '#212529'
     },
     headerSubtitle: {
-      color: '#6c757d'
+      color: '#6c757d',
+      fontSize: '1rem'
     },
     cardsContainer: {
       display: 'grid',
       gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-      gap: '1.5rem',
-      marginBottom: '1.5rem'
+      gap: '24px',
+      marginBottom: '24px'
     },
     card: {
       backgroundColor: 'white',
-      borderRadius: '0.75rem',
+      borderRadius: '12px',
       boxShadow: '0 0.125rem 0.25rem rgba(0,0,0,0.075)',
-      padding: '1.25rem',
+      padding: '20px',
       display: 'flex',
       flexDirection: 'column',
       borderLeft: '4px solid'
@@ -200,7 +200,7 @@ const Home = () => {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'flex-start',
-      marginBottom: '0.75rem'
+      marginBottom: '12px'
     },
     cardTitle: {
       fontSize: '0.75rem',
@@ -212,12 +212,13 @@ const Home = () => {
     cardValue: {
       fontSize: '1.75rem',
       fontWeight: 'bold',
-      margin: '0.5rem 0'
+      margin: '8px 0',
+      color: '#212529'
     },
     cardIcon: {
       backgroundColor: 'rgba(25, 135, 84, 0.1)',
-      padding: '0.75rem',
-      borderRadius: '0.5rem',
+      padding: '12px',
+      borderRadius: '8px',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center'
@@ -231,12 +232,12 @@ const Home = () => {
     cardBadge: {
       backgroundColor: 'rgba(25, 135, 84, 0.1)',
       color: '#198754',
-      padding: '0.25rem 0.5rem',
-      borderRadius: '0.5rem',
+      padding: '4px 8px',
+      borderRadius: '8px',
       fontSize: '0.75rem',
       display: 'inline-flex',
       alignItems: 'center',
-      gap: '0.25rem'
+      gap: '4px'
     },
     badgeExpense: {
       backgroundColor: 'rgba(220, 53, 69, 0.1)',
@@ -249,21 +250,21 @@ const Home = () => {
     contentContainer: {
       display: 'grid',
       gridTemplateColumns: '2fr 1fr',
-      gap: '1.5rem'
+      gap: '24px'
     },
     mainCard: {
       backgroundColor: 'white',
-      borderRadius: '0.75rem',
+      borderRadius: '12px',
       boxShadow: '0 0.125rem 0.25rem rgba(0,0,0,0.075)',
       overflow: 'hidden'
     },
     cardHeaderTabs: {
       display: 'flex',
       borderBottom: '1px solid #dee2e6',
-      padding: '0 1.25rem'
+      padding: '0 20px'
     },
     tabButton: {
-      padding: '1rem 1.25rem',
+      padding: '16px 20px',
       background: 'none',
       border: 'none',
       cursor: 'pointer',
@@ -285,32 +286,33 @@ const Home = () => {
       backgroundColor: '#0d6efd'
     },
     cardBody: {
-      padding: '1.5rem'
+      padding: '24px'
     },
     cardHeaderRow: {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      marginBottom: '1rem'
+      marginBottom: '16px'
     },
-    cardTitle: {
+    sectionTitle: {
       fontSize: '1.25rem',
       fontWeight: 500,
-      margin: 0
+      margin: 0,
+      color: '#212529'
     },
     buttonGroup: {
       display: 'flex',
-      gap: '0.5rem'
+      gap: '8px'
     },
     button: {
-      padding: '0.375rem 0.75rem',
-      borderRadius: '0.5rem',
+      padding: '6px 12px',
+      borderRadius: '8px',
       border: '1px solid #dee2e6',
       backgroundColor: 'white',
       cursor: 'pointer',
       display: 'flex',
       alignItems: 'center',
-      gap: '0.25rem',
+      gap: '4px',
       fontSize: '0.875rem'
     },
     primaryButton: {
@@ -321,23 +323,23 @@ const Home = () => {
     chartContainer: {
       display: 'flex',
       justifyContent: 'space-between',
-      marginBottom: '2rem'
+      marginBottom: '32px'
     },
     chartHeader: {
       display: 'flex',
       justifyContent: 'space-between',
-      marginBottom: '1rem',
+      marginBottom: '16px',
       alignItems: 'center'
     },
     chartLegend: {
       display: 'flex',
-      gap: '1rem',
+      gap: '16px',
       alignItems: 'center'
     },
     legendItem: {
       display: 'flex',
       alignItems: 'center',
-      gap: '0.25rem'
+      gap: '4px'
     },
     colorIndicator: {
       width: '10px',
@@ -349,7 +351,7 @@ const Home = () => {
       display: 'flex',
       alignItems: 'flex-end',
       height: '200px',
-      gap: '0.5rem'
+      gap: '8px'
     },
     chartBarGroup: {
       display: 'flex',
@@ -362,39 +364,39 @@ const Home = () => {
       alignItems: 'flex-end',
       width: '100%',
       height: '100%',
-      gap: '0.25rem'
+      gap: '4px'
     },
     incomeBar: {
       backgroundColor: '#198754',
       opacity: 0.8,
-      borderRadius: '0.25rem 0.25rem 0 0',
+      borderRadius: '4px 4px 0 0',
       flex: 1
     },
     expenseBar: {
       backgroundColor: '#dc3545',
       opacity: 0.8,
-      borderRadius: '0.25rem 0.25rem 0 0',
+      borderRadius: '4px 4px 0 0',
       flex: 1
     },
     monthLabel: {
       color: '#6c757d',
       fontSize: '0.75rem',
-      marginTop: '0.25rem'
+      marginTop: '4px'
     },
     transactionList: {
-      marginTop: '1.5rem'
+      marginTop: '24px'
     },
     transactionItem: {
       display: 'flex',
       alignItems: 'center',
-      padding: '1rem',
+      padding: '16px',
       borderBottom: '1px solid #e9ecef'
     },
     transactionIcon: {
       backgroundColor: '#e9ecef',
-      padding: '0.75rem',
-      borderRadius: '0.5rem',
-      marginRight: '1rem',
+      padding: '12px',
+      borderRadius: '8px',
+      marginRight: '16px',
       fontSize: '1.25rem'
     },
     incomeIcon: {
@@ -410,7 +412,8 @@ const Home = () => {
     },
     transactionName: {
       fontWeight: 500,
-      marginBottom: '0.25rem'
+      marginBottom: '4px',
+      color: '#212529'
     },
     transactionMeta: {
       color: '#6c757d',
@@ -429,34 +432,35 @@ const Home = () => {
     viewAllButton: {
       display: 'block',
       textAlign: 'center',
-      padding: '1rem',
+      padding: '16px',
       color: '#0d6efd',
       textDecoration: 'none',
       fontWeight: 500
     },
     sidebarCard: {
       backgroundColor: 'white',
-      borderRadius: '0.75rem',
+      borderRadius: '12px',
       boxShadow: '0 0.125rem 0.25rem rgba(0,0,0,0.075)',
-      marginBottom: '1.5rem',
+      marginBottom: '24px',
       overflow: 'hidden'
     },
     sidebarCardHeader: {
-      padding: '1rem 1.25rem',
+      padding: '16px 20px',
       borderBottom: '1px solid #dee2e6',
       fontSize: '1.125rem',
-      fontWeight: 500
+      fontWeight: 500,
+      color: '#212529'
     },
     sidebarCardBody: {
-      padding: '1.25rem'
+      padding: '20px'
     },
     progressContainer: {
-      marginBottom: '1rem'
+      marginBottom: '16px'
     },
     progressLabel: {
       display: 'flex',
       justifyContent: 'space-between',
-      marginBottom: '0.5rem',
+      marginBottom: '8px',
       color: '#6c757d',
       fontSize: '0.875rem'
     },
@@ -474,8 +478,8 @@ const Home = () => {
     budgetDetails: {
       display: 'flex',
       justifyContent: 'space-between',
-      marginTop: '1rem',
-      paddingTop: '1rem',
+      marginTop: '16px',
+      paddingTop: '16px',
       borderTop: '1px solid #e9ecef',
       color: '#6c757d',
       fontSize: '0.875rem'
@@ -486,17 +490,17 @@ const Home = () => {
     },
     quickActions: {
       display: 'grid',
-      gap: '0.75rem'
+      gap: '12px'
     },
     actionButton: {
-      padding: '0.75rem',
-      borderRadius: '0.5rem',
+      padding: '12px',
+      borderRadius: '8px',
       border: '1px solid #dee2e6',
       backgroundColor: 'white',
       cursor: 'pointer',
       display: 'flex',
       alignItems: 'center',
-      gap: '0.5rem',
+      gap: '8px',
       textAlign: 'left',
       fontSize: '1rem',
       fontWeight: 500,
@@ -505,7 +509,7 @@ const Home = () => {
     footer: {
       backgroundColor: 'white',
       borderTop: '1px solid #dee2e6',
-      padding: '1.5rem',
+      padding: '24px',
       marginTop: 'auto'
     },
     footerContainer: {
@@ -521,7 +525,7 @@ const Home = () => {
     },
     heartIcon: {
       color: '#dc3545',
-      margin: '0 0.25rem'
+      margin: '0 4px'
     }
   };
 
@@ -529,10 +533,10 @@ const Home = () => {
     <div style={styles.app}>
       {/* Navigation Bar */}
       <nav style={styles.navbar}>
-        <div style={styles.navbarContainer}>
+        <div style={styles.navContainer}>
           <a href="#" style={styles.brand}>
             <span>💰</span>
-            <span style={{ marginLeft: '0.5rem' }}>FinTrack</span>
+            <span style={{ marginLeft: '8px' }}>FinTrack</span>
           </a>
           
           <div style={styles.navLinks}>
@@ -670,7 +674,7 @@ const Home = () => {
               {activeTab === 'overview' && (
                 <div>
                   <div style={styles.cardHeaderRow}>
-                    <h2 style={styles.cardTitle}>Financial Overview</h2>
+                    <h2 style={styles.sectionTitle}>Financial Overview</h2>
                     <div style={styles.buttonGroup}>
                       <button style={styles.button}>
                         Last 30 days <span>⬇️</span>
@@ -713,7 +717,7 @@ const Home = () => {
                     </div>
                   </div>
                   
-                  <h2 style={styles.cardTitle}>Recent Transactions</h2>
+                  <h2 style={styles.sectionTitle}>Recent Transactions</h2>
                   <div style={styles.transactionList}>
                     {transactions.map(transaction => (
                       <div key={transaction.id} style={styles.transactionItem}>
@@ -747,21 +751,21 @@ const Home = () => {
               
               {activeTab === 'transactions' && (
                 <div>
-                  <h2 style={styles.cardTitle}>Transaction History</h2>
-                  <div style={{ ...styles.cardHeaderRow, marginBottom: '1.5rem' }}>
+                  <h2 style={styles.sectionTitle}>Transaction History</h2>
+                  <div style={{ ...styles.cardHeaderRow, marginBottom: '24px' }}>
                     <div style={styles.buttonGroup}>
                       <button style={{ ...styles.button, ...styles.primaryButton }}>All</button>
                       <button style={styles.button}>Income</button>
                       <button style={styles.button}>Expenses</button>
                     </div>
                     <div style={styles.buttonGroup}>
-                      <div style={{ display: 'flex', gap: '0.25rem' }}>
+                      <div style={{ display: 'flex', gap: '4px' }}>
                         <input 
                           type="text" 
                           placeholder="Search transactions..." 
                           style={{
-                            padding: '0.375rem 0.75rem',
-                            borderRadius: '0.5rem',
+                            padding: '6px 12px',
+                            borderRadius: '8px',
                             border: '1px solid #dee2e6',
                             fontSize: '0.875rem'
                           }}
@@ -780,38 +784,38 @@ const Home = () => {
                     <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                       <thead>
                         <tr style={{ backgroundColor: '#f8f9fa' }}>
-                          <th style={{ padding: '0.75rem', textAlign: 'left', fontWeight: 500 }}>Description</th>
-                          <th style={{ padding: '0.75rem', textAlign: 'left', fontWeight: 500 }}>Category</th>
-                          <th style={{ padding: '0.75rem', textAlign: 'left', fontWeight: 500 }}>Date</th>
-                          <th style={{ padding: '0.75rem', textAlign: 'right', fontWeight: 500 }}>Amount</th>
+                          <th style={{ padding: '12px', textAlign: 'left', fontWeight: 500 }}>Description</th>
+                          <th style={{ padding: '12px', textAlign: 'left', fontWeight: 500 }}>Category</th>
+                          <th style={{ padding: '12px', textAlign: 'left', fontWeight: 500 }}>Date</th>
+                          <th style={{ padding: '12px', textAlign: 'right', fontWeight: 500 }}>Amount</th>
                         </tr>
                       </thead>
                       <tbody>
                         {financialData?.transactions.map(transaction => (
                           <tr key={transaction.id} style={{ borderBottom: '1px solid #e9ecef' }}>
-                            <td style={{ padding: '0.75rem' }}>
+                            <td style={{ padding: '12px' }}>
                               <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <span style={{ marginRight: '0.5rem' }}>
+                                <span style={{ marginRight: '8px' }}>
                                   {getCategoryIcon(transaction.category)}
                                 </span>
                                 {transaction.name}
                               </div>
                             </td>
-                            <td style={{ padding: '0.75rem' }}>
+                            <td style={{ padding: '12px' }}>
                               <span style={{ 
                                 backgroundColor: '#e9ecef', 
-                                padding: '0.25rem 0.5rem', 
-                                borderRadius: '0.5rem', 
+                                padding: '4px 8px', 
+                                borderRadius: '8px', 
                                 fontSize: '0.875rem' 
                               }}>
                                 {transaction.category}
                               </span>
                             </td>
-                            <td style={{ padding: '0.75rem' }}>
+                            <td style={{ padding: '12px' }}>
                               {new Date(transaction.date).toLocaleDateString()}
                             </td>
                             <td style={{ 
-                              padding: '0.75rem', 
+                              padding: '12px', 
                               textAlign: 'right', 
                               fontWeight: 'bold',
                               color: transaction.type === 'income' ? '#198754' : '#dc3545'
@@ -828,14 +832,14 @@ const Home = () => {
               
               {activeTab === 'reports' && (
                 <div>
-                  <h2 style={styles.cardTitle}>Financial Reports</h2>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+                  <h2 style={styles.sectionTitle}>Financial Reports</h2>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
                     <div style={styles.sidebarCard}>
                       <div style={styles.sidebarCardHeader}>Expense Breakdown</div>
                       <div style={styles.sidebarCardBody}>
                         {['Housing', 'Food', 'Utilities', 'Transportation', 'Entertainment'].map((cat, idx) => (
-                          <div key={cat} style={{ marginBottom: '1.25rem' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                          <div key={cat} style={{ marginBottom: '20px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                               <span style={{ fontSize: '0.875rem' }}>{cat}</span>
                               <span style={{ fontSize: '0.875rem', fontWeight: 'bold' }}>
                                 {idx === 0 ? '48%' : idx === 1 ? '22%' : idx === 2 ? '15%' : idx === 3 ? '10%' : '5%'}
@@ -870,9 +874,8 @@ const Home = () => {
                             <div style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>Total</div>
                             <div>{formatCurrency(summary.income || 0)}</div>
                           </div>
-                          {/* Pie chart representation would go here */}
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '1rem' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '16px' }}>
                           <div style={{ textAlign: 'center' }}>
                             <div style={{ ...styles.colorIndicator, backgroundColor: '#0d6efd' }}></div>
                             <div style={{ fontSize: '0.875rem' }}>Salary: 75%</div>
@@ -931,7 +934,7 @@ const Home = () => {
                 <button style={{ 
                   ...styles.button, 
                   width: '100%',
-                  marginTop: '1rem',
+                  marginTop: '16px',
                   justifyContent: 'center'
                 }}>
                   <span>✏️</span> Edit Budget
