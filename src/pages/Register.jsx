@@ -7,7 +7,6 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [gender, setGender] = useState("male");
-  const [role, setRole] = useState("user");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
@@ -82,15 +81,7 @@ export default function Register() {
                   </Form.Group>
                 </Col>
 
-                <Col md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Role</Form.Label>
-                    <Form.Select value={role} onChange={(e) => setRole(e.target.value)} required>
-                      <option value="user">User</option>
-                      <option value="admin">Admin</option>
-                    </Form.Select>
-                  </Form.Group>
-                </Col>
+                
               </Row>
 
               <Button type="submit" className="w-100 rounded-pill" disabled={loading}>
