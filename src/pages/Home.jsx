@@ -1,7 +1,7 @@
 // src/Dashboard.jsx
 import React, { useState, useEffect } from 'react';
 
-const Dashboard = () => {
+const Home = () => {
   const [role, setRole] = useState('user');
   const [activeTab, setActiveTab] = useState('overview');
   const [timeOfDay, setTimeOfDay] = useState('');
@@ -539,4 +539,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Home;
